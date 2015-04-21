@@ -1,0 +1,60 @@
+#jw_lighttwitterwidget {
+	background: #555;
+	min-width: 46px;
+	min-height: 46px;
+	position: relative;
+}
+
+#jw_lighttwitterwidget div {
+	width: 26px;
+	z-index: 11;
+	height: 26px;
+	position:absolute;
+	left: 50%;
+	top: 50%;
+	margin: -13px 0 0 -13px;
+	animation: jw_lighttwitterwidget_loading 3s linear infinite;
+	animation-play-state: running;
+	-moz-animation: jw_lighttwitterwidget_loading 3s linear infinite;
+	-moz-animation-play-state: running;
+	-webkit-animation: jw_lighttwitterwidget_loading 3s linear infinite;
+	-webkit-animation-play-state: running;
+	background: url(loading.png);
+}
+
+#jw_lighttwitterwidget .url, #jw_lighttwitterwidget .tag, #jw_lighttwitterwidget .user {
+	color:#ddd;
+	font-weight:bolder;
+}
+
+#jw_lighttwitterwidget #sub {
+	color:#fff;
+	text-align:right;
+	display:block;
+	margin-top: .5em;
+	font-size: .8em;
+}
+
+@keyframes jw_lighttwitterwidget_loading {
+	from {
+		transform:rotate(0deg);
+	} to {
+		transform:rotate(360deg);
+	}
+}
+
+@-moz-keyframes jw_lighttwitterwidget_loading {
+	from {
+		-moz-transform:rotate(0deg);
+	} to {
+		-moz-transform:rotate(360deg);
+	}
+}
+
+@-webkit-keyframes jw_lighttwitterwidget_loading {
+	from {
+		-webkit-transform:rotate(0deg);
+	} to {
+		-webkit-transform:rotate(360deg);
+	}
+}
