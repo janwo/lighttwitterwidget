@@ -22,7 +22,7 @@ Create a simple widget of your most recent tweet on Twitter within Wordpress usi
          <img data-avatar>
       </a>
       <span class="tweet" data-preset="tweet()"></span>
-      <span class="date" data-preset="Tweeted years(x year[s])months(x month[s])days(x day[s])hours(x hour[s]) ago."></span>
+      <span class="date" data-preset="Tweeted years(x year[s])months(x month[s])days(x day[s])hours(x hour[s])minutes(x minute[s])seconds(x second[s]) ago."></span>
 [/jw_lighttwitterwidget_make]
 ```
 3. Done! Give it a try in the front end.
