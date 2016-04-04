@@ -36,9 +36,11 @@ As you might have realized, the html-elements within the shortcode come with spe
 #### data-preset
 
 In order to propagate Twitter information within a specific html-element, add the html-attribute *data-preset* to the html-element and set your desired preset text as its value. You can use the following functions within the html-attribute value:
-1. screen_name() - Your username
-2. name() - Your full name
-3. tweet() - Your tweet
+1. *screen_name()* - Your username
+2. *name()* - Your full name
+3. *tweet()* - Your tweet
+4. *years()*, *months()*, *hours()*, *minutes()*, *seconds()* - The lifetime of the tweet in years, months, hours, minutes or seconds. Please note that as soon as one of these functions return 1 or greater, all following time functions will return an empty string.
+
 The plugin will set the content of html-element accordingly.
 
 ##### Example

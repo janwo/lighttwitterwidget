@@ -13,7 +13,7 @@
 				time: {
 					unknown_variable: /(\s|^)x(\s|$)/ig,
 					plural_indicator: /\[(.*?)]/ig,
-					enclosing: /(minutes|hours|months|days|years)\((.*?)\)/ig
+					enclosing: /(seconds|minutes|hours|months|days|years)\((.*?)\)/ig
 				},
 				tweet: /tweet\(\)/ig,
 				name: /name\(\)/ig,
@@ -41,6 +41,7 @@
 				// Get number of time units.
 				var millis_ago = Date.now() - new Date(tweet.date).getTime();
 				switch(p1) {
+					case 'seconds': millis_ago /= 1000; break;
 					case 'minutes': millis_ago /= 1000 * 60; break;
 					case 'hours': millis_ago /= 1000 * 60 * 60; break;
 					case 'days': millis_ago /= 1000 * 60 * 60 * 24; break;
