@@ -1,0 +1,72 @@
+/*!
+* @author: Jan Wolf (https://jan-wolf.de)
+* @license: 2016 Jan Wolf
+*/
+
+$jw-lighttwitterwidget-user-height: 4rem;
+$jw-lighttwitterwidget-user-image-gap: 1rem;
+$jw-lighttwitterwidget-user-image-roundness: 100%;
+$jw-lighttwitterwidget-user-margin-bottom: 1.5rem;
+$jw-lighttwitterwidget-tweet-margin-bottom: 1rem;
+$jw-lighttwitterwidget-tweet-font-size: 2rem;
+$jw-lighttwitterwidget-date-font-size: 0.75rem;
+$jw-lighttwitterwidget-user-name-font-size: 1.25rem;
+$jw-lighttwitterwidget-user-names-gap: 0.5rem;
+$jw-lighttwitterwidget-user-screen-name-font-size: 1rem;
+
+.jw_lighttwitterwidget_widget {
+  text-align: center;
+  display: block;
+
+  .user {
+    display: inline-block;
+    height: $jw-lighttwitterwidget-user-height;
+    position: relative;
+    text-align: left;
+    padding-left: $jw-lighttwitterwidget-user-image-gap + $jw-lighttwitterwidget-user-height;
+    margin-bottom: $jw-lighttwitterwidget-user-margin-bottom;
+
+    img {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: $jw-lighttwitterwidget-user-height;
+      height: $jw-lighttwitterwidget-user-height;
+      border-radius: $jw-lighttwitterwidget-user-image-roundness / 2;
+    }
+
+    .name {
+      line-height: 1;
+      display: block;
+      margin-top: ($jw-lighttwitterwidget-user-height - $jw-lighttwitterwidget-user-names-gap - $jw-lighttwitterwidget-user-name-font-size - $jw-lighttwitterwidget-user-screen-name-font-size) / 2;
+      font-size: $jw-lighttwitterwidget-user-name-font-size;
+      margin-bottom: $jw-lighttwitterwidget-user-names-gap;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .screen_name {
+      &:before {
+        content: '@';
+      }
+
+      line-height: 1;
+      display: block;
+      font-size: $jw-lighttwitterwidget-user-screen-name-font-size;
+      opacity: 0.75;
+    }
+  }
+
+  .tweet {
+    margin-bottom: $jw-lighttwitterwidget-tweet-margin-bottom;
+    display: block;
+    font-size: $jw-lighttwitterwidget-tweet-font-size;
+  }
+
+  .date {
+    display: block;
+    text-transform: uppercase;
+    font-size: $jw-lighttwitterwidget-date-font-size;
+  }
+}

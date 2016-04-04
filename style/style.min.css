@@ -1,0 +1,4 @@
+/*!
+* @author: Jan Wolf (https://jan-wolf.de)
+* @license: 2016 Jan Wolf
+*/.jw_lighttwitterwidget_widget{text-align:center;display:block}.jw_lighttwitterwidget_widget .user{display:inline-block;height:4rem;position:relative;text-align:left;padding-left:5rem;margin-bottom:1.5rem}.jw_lighttwitterwidget_widget .user img{display:block;position:absolute;top:0;left:0;width:4rem;height:4rem;border-radius:50%}.jw_lighttwitterwidget_widget .user .name{line-height:1;display:block;margin-top:.625rem;font-size:1.25rem;margin-bottom:.5rem;font-weight:700;text-align:center}.jw_lighttwitterwidget_widget .user .screen_name{line-height:1;display:block;font-size:1rem;opacity:.75}.jw_lighttwitterwidget_widget .user .screen_name:before{content:'@'}.jw_lighttwitterwidget_widget .tweet{margin-bottom:1rem;display:block;font-size:2rem}.jw_lighttwitterwidget_widget .date{display:block;text-transform:uppercase;font-size:.75rem}

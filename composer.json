@@ -1,0 +1,19 @@
+{
+  "name": "janwolf/lightTwitterWidget",
+  "type": "library",
+  "description": "Show your last tweet on your WordPress page using the Twitter OAuth REST API.",
+  "keywords": ["wordpress", "twitter", "api", "twitter api", "twitter oauth"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jan Wolf",
+      "email": "info@jan-wolf.de",
+      "homepage": "https://jan-wolf.de",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.0",
+    "abraham/twitteroauth": "*"
+  }
+}
