@@ -12,16 +12,14 @@ use Abraham\TwitterOAuth\TwitterOAuth;
  */
 
 class jw_lighttwitterwidget {
-	/**
-	 * Holds the values to be used in the fields callbacks
-	 */
+
 	const PREFIX = 'jw_lighttwitterwidget';
 	const OPTION_NAME = 'settings';
 	const CACHE_NAME = 'cache';
 	const OPTION_GROUP = 'settings_group';
 	const OPTION_SECTION_GENERAL = 'settings_section_general';
 	const OPTION_SECTION_AUTHENTICATION = 'settings_section_authentication';
-	const TEXT_DOMAIN_LIGHT_TWITTER_WIDGET = 'jw_lighttwitterwidget';
+	const TEXT_DOMAIN = 'jw_lighttwitterwidget';
 	const DEFAULT_REFRESH_INTERVAL = 3600;
 
 	private static function prefix($string) {
@@ -53,11 +51,9 @@ class jw_lighttwitterwidget {
 	}
 
 	function load_textdomain() {
-		load_plugin_textdomain( self::TEXT_DOMAIN_LIGHT_TWITTER_WIDGET, false, plugin_basename( dirname( __FILE__ ) ) . '/langs' );
+		load_plugin_textdomain( self::TEXT_DOMAIN, false, plugin_basename( dirname( __FILE__ ) ) . '/langs' );
 	}
-	/**
-	 * Start up
-	 */
+
 	public function __construct() {
 		add_action( 'admin_init', [ $this, 'page_init' ] );
 		add_action( 'admin_menu', [ $this, 'add_plugin_page' ] );
@@ -70,7 +66,7 @@ class jw_lighttwitterwidget {
 	}
 
 	public function enqueue_scripts() {
-		wp_enqueue_script( self::prefix('script'), plugins_url( 'script/script.min.js', __FILE__ ), [ 'jquery' ] );
+		wp_enqueue_script( self::prefix('script'), plugins_url( 'dst/script.min.js', __FILE__ ), [ 'jquery' ] );
 		wp_localize_script( self::prefix('script'), self::prefix('ajaxobj'), [
 			'ajaxurl'     => admin_url( 'admin-ajax.php' ),
 			'nonce'       => wp_create_nonce( self::prefix('nonce') )
@@ -78,7 +74,7 @@ class jw_lighttwitterwidget {
 
 		// Optional styling.
 		if($this->get_options()['styling']) {
-			wp_register_style( self::prefix('style'), plugins_url( 'style/style.min.css', __FILE__ ) );
+			wp_register_style( self::prefix('style'), plugins_url( 'dst/style.min.css', __FILE__ ) );
 			wp_enqueue_style( self::prefix('style') );
 		}
 	}
@@ -89,24 +85,28 @@ class jw_lighttwitterwidget {
 	}
 
 	/**
-	 * Add options page
+	 * Add options page.
 	 */
 	public function add_plugin_page() {
 		// This page will be registered within the Settings-Menu.
-		add_options_page( __( 'Twitter Widget', self::TEXT_DOMAIN_LIGHT_TWITTER_WIDGET ), __( 'Twitter Widget', self::TEXT_DOMAIN_LIGHT_TWITTER_WIDGET ), 'edit_pages', self::prefix(self::OPTION_GROUP), [
+		add_options_page(
+			__( 'Twitter Widget', self::TEXT_DOMAIN ),
+			__( 'Twitter Widget', self::TEXT_DOMAIN ),
+			'edit_pages',
+			self::prefix(self::OPTION_GROUP), [
 				$this,
 				'create_admin_page'
 			] );
 	}
 
 	/**
-	 * Options page callback
+	 * Options page callback.
 	 */
 	public function create_admin_page() {
 		?>
 		<div class="wrap">
 			<?php screen_icon(); ?>
-			<h2><?php _e( 'Twitter Widget', self::TEXT_DOMAIN_LIGHT_TWITTER_WIDGET );?></h2>
+			<h2><?php _e( 'Twitter Widget', self::TEXT_DOMAIN );?></h2>
 			<form method="post" action="options.php">
 				<?php
 					// This prints out all hidden setting fields.
@@ -120,7 +120,7 @@ class jw_lighttwitterwidget {
 	}
 
 	/**
-	 * Register and add settings
+	 * Register and add settings.
 	 */
 	public function page_init() {
 		register_setting( self::prefix(self::OPTION_GROUP), // Option group
@@ -129,54 +129,54 @@ class jw_lighttwitterwidget {
 		);
 
 		add_settings_section( self::OPTION_SECTION_GENERAL, // ID
-			__('General', self::TEXT_DOMAIN_LIGHT_TWITTER_WIDGET), // Title
+			__('General', self::TEXT_DOMAIN), // Title
 			[ $this, 'print_section_info_general' ], // Callback
 			self::prefix(self::OPTION_GROUP) // Page
 		);
 
 		add_settings_section( self::OPTION_SECTION_AUTHENTICATION, // ID
-			__('Authentication', self::TEXT_DOMAIN_LIGHT_TWITTER_WIDGET), // Title
+			__('Authentication', self::TEXT_DOMAIN), // Title
 			[ $this, 'print_section_info_authentication' ], // Callback
 			self::prefix(self::OPTION_GROUP) // Page
 		);
 
 		add_settings_field( 'consumer', // ID
-			__('Consumer String', self::TEXT_DOMAIN_LIGHT_TWITTER_WIDGET), // Title
+			__('Consumer String', self::TEXT_DOMAIN), // Title
 			[ $this, 'consumer_callback' ], // Callback
 			self::prefix(self::OPTION_GROUP), // Page
 			self::OPTION_SECTION_AUTHENTICATION // Section
 		);
 
 		add_settings_field( 'consumersecret', // ID
-			__('Consumer Secret', self::TEXT_DOMAIN_LIGHT_TWITTER_WIDGET), // Title
+			__('Consumer Secret', self::TEXT_DOMAIN), // Title
 			[ $this, 'consumersecret_callback' ], // Callback
 			self::prefix(self::OPTION_GROUP), // Page
 			self::OPTION_SECTION_AUTHENTICATION // Section
 		);
 
 		add_settings_field( 'oauthtoken', // ID
-			__('OAuthToken String', self::TEXT_DOMAIN_LIGHT_TWITTER_WIDGET), // Title
+			__('OAuthToken String', self::TEXT_DOMAIN), // Title
 			[ $this, 'oauthtoken_callback' ], // Callback
 			self::prefix(self::OPTION_GROUP), // Page
 			self::OPTION_SECTION_AUTHENTICATION // Section
 		);
 
 		add_settings_field( 'oauthtokensecret', // ID
-			__('OAuthToken Secret', self::TEXT_DOMAIN_LIGHT_TWITTER_WIDGET), // Title
+			__('OAuthToken Secret', self::TEXT_DOMAIN), // Title
 			[ $this, 'oauthtokensecret_callback' ], // Callback
 			self::prefix(self::OPTION_GROUP), // Page
 			self::OPTION_SECTION_AUTHENTICATION // Section
 		);
 
 		add_settings_field( 'refreshinterval', // ID
-			__('Refresh Interval (Seconds)', self::TEXT_DOMAIN_LIGHT_TWITTER_WIDGET), // Title
+			__('Refresh Interval (Seconds)', self::TEXT_DOMAIN), // Title
 			[ $this, 'refreshinterval_callback' ], // Callback
 			self::prefix(self::OPTION_GROUP), // Page
 			self::OPTION_SECTION_GENERAL // Section
 		);
 
 		add_settings_field( 'styling', // ID
-			__('Use default styling?', self::TEXT_DOMAIN_LIGHT_TWITTER_WIDGET), // Title
+			__('Use default styling?', self::TEXT_DOMAIN), // Title
 			[ $this, 'styling_callback' ], // Callback
 			self::prefix(self::OPTION_GROUP), // Page
 			self::OPTION_SECTION_GENERAL // Section
@@ -184,7 +184,7 @@ class jw_lighttwitterwidget {
 	}
 
 	/**
-	 * Sanitize each setting field as needed
+	 * Sanitize each setting field as needed.
 	 *
 	 * @param array $input Contains all settings fields as array keys
 	 * @return array|mixed
@@ -201,36 +201,36 @@ class jw_lighttwitterwidget {
 	}
 
 	public function print_section_info_authentication() {
-		_e('In order to make the widget work, fill the form with your twitter credentials that are used to gather the tweets.', self::TEXT_DOMAIN_LIGHT_TWITTER_WIDGET);
+		_e('In order to make the widget work, fill the form with your twitter credentials that are used to gather the tweets.', self::TEXT_DOMAIN);
 	}
 
 	public function print_section_info_general() {
-		_e('Define your desired general settings of the widget here.', self::TEXT_DOMAIN_LIGHT_TWITTER_WIDGET);
+		_e('Define your desired general settings of the widget here.', self::TEXT_DOMAIN);
 	}
 
 	public function consumer_callback() {
 		$options = $this->get_options();
-		printf( '<input type="text" id="consumer" name="' . self::prefix(self::OPTION_NAME) . '[consumer]" value="%s" />', isset( $options[ 'consumer' ] ) ? esc_attr( $options[ 'consumer' ] ) : '' );
+		print '<input type="text" id="consumer" name="' . self::prefix(self::OPTION_NAME) . '[consumer]" value="' . ( isset( $options[ 'consumer' ] ) ? esc_attr( $options[ 'consumer' ] ) : '' ) . '">';
 	}
 
 	public function consumersecret_callback() {
 		$options = $this->get_options();
-		printf( '<input type="text" id="consumersecret" name="' . self::prefix(self::OPTION_NAME) . '[consumersecret]" value="%s" />', isset( $options[ 'consumersecret' ] ) ? esc_attr( $options[ 'consumersecret' ] ) : '' );
+		print '<input type="text" id="consumersecret" name="' . self::prefix(self::OPTION_NAME) . '[consumersecret]" value="' . ( isset( $options[ 'consumersecret' ] ) ? esc_attr( $options[ 'consumersecret' ] ) : '' ) . '">';
 	}
 
 	public function oauthtoken_callback() {
 		$options = $this->get_options();
-		printf( '<input type="text" id="oauthtoken" name="' . self::prefix(self::OPTION_NAME) . '[oauthtoken]" value="%s" />', isset( $options[ 'oauthtoken' ] ) ? esc_attr( $options[ 'oauthtoken' ] ) : '' );
+		print '<input type="text" id="oauthtoken" name="' . self::prefix(self::OPTION_NAME) . '[oauthtoken]" value="' . ( isset( $options[ 'oauthtoken' ] ) ? esc_attr( $options[ 'oauthtoken' ] ) : '' ) . '">';
 	}
 
 	public function oauthtokensecret_callback() {
 		$options = $this->get_options();
-		printf( '<input type="text" id="oauthtokensecret" name="' . self::prefix(self::OPTION_NAME) . '[oauthtokensecret]" value="%s" />', isset( $options[ 'oauthtokensecret' ] ) ? esc_attr( $options[ 'oauthtokensecret' ] ) : '' );
+		print '<input type="text" id="oauthtokensecret" name="' . self::prefix(self::OPTION_NAME) . '[oauthtokensecret]" value="' . ( isset( $options[ 'oauthtokensecret' ] ) ? esc_attr( $options[ 'oauthtokensecret' ] ) : '' ) . '">';
 	}
 
 	public function refreshinterval_callback() {
 		$options = $this->get_options();
-		printf( '<input type="number" id="refreshinterval" name="' . self::prefix(self::OPTION_NAME) . '[refreshinterval]" value="%s" />', isset( $options[ 'refreshinterval' ] ) ? esc_attr( $options[ 'refreshinterval' ] ) : '' );
+		print '<input type="number" id="refreshinterval" name="' . self::prefix(self::OPTION_NAME) . '[refreshinterval]" value="' . ( isset( $options[ 'refreshinterval' ] ) ? esc_attr( $options[ 'refreshinterval' ] ) : '' ) . '">';
 	}
 
 	public function styling_callback() {
@@ -319,8 +319,8 @@ class jw_lighttwitterwidget {
 		// Echo the template.
 		if ( is_null( $content ) ) {
 			echo '<div class="user"><img data-avatar><span class="name" data-preset="name()"></span><span class="screen_name" data-preset="screen_name()"></span></div>';
-			echo '<span class="tweet" data-preset="tweet()" data-error="' . __( 'Service temporarily unavailable.', self::TEXT_DOMAIN_LIGHT_TWITTER_WIDGET ) . '" data-no-tweets="' . __( 'There are no tweets yet.', self::TEXT_DOMAIN_LIGHT_TWITTER_WIDGET ) . '"></span>';
-			echo '<span class="date" data-preset="' . __( 'Tweeted years(x year[s])months(x month[s])days(x day[s])hours(x hour[s]) ago.', self::TEXT_DOMAIN_LIGHT_TWITTER_WIDGET ) . '"></span>';
+			echo '<span class="tweet" data-preset="tweet()" data-error="' . __( 'Service temporarily unavailable.', self::TEXT_DOMAIN ) . '" data-no-tweets="' . __( 'There are no tweets yet.', self::TEXT_DOMAIN ) . '"></span>';
+			echo '<span class="date" data-preset="' . __( 'Tweeted years(x year[s])months(x month[s])days(x day[s])hours(x hour[s]) ago.', self::TEXT_DOMAIN ) . '"></span>';
 		} else {
 			echo $content;
 		}

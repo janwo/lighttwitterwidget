@@ -1,6 +1,6 @@
 # Light Twitter Widget
 
-Create a simple widget of your most recent tweet on Twitter within Wordpress using a easy-to-use API. To reduce the number of calls to the Twitter API, the plugin comes with caching.
+Create a simple widget of your most recent tweet on Twitter within WordPress using a easy-to-use API. To reduce the number of calls to the Twitter API, the plugin comes with caching.
 
 ## Getting Started
 

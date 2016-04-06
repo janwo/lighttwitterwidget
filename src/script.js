@@ -4,10 +4,11 @@
 */
 (function ( $ ) {
 	"use strict";
+
 	// Define.
 	var jw_lighttwitterwidget = function (options) {
 		// Merge options with default values.
-		options = $.extend( {
+		options = $.extend( true, {
 			element: null,
 			regex: {
 				time: {
@@ -20,6 +21,9 @@
 				screen_name: /screen_name\(\)/ig
 			}
 		}, options || {} );
+
+		// Stop, if no element is set.
+		if(options.element === null || options.element.length > 1) throw('Multiple or no element set as a widget container.');
 
 		var prefix = function(string){
 			return options.element.attr('data-prefix') + '_' + string;
