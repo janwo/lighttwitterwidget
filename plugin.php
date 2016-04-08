@@ -34,7 +34,8 @@ class jw_lighttwitterwidget {
 			'oauthtokensecret'  => '',
 			'consumersecret'    => '',
 			'refreshinterval'   => self::DEFAULT_REFRESH_INTERVAL,
-			'styling'           => true
+			'styling'           => true,
+			'autoload'          => true
 		];
 		if($options === false) return $default;
 		return wp_parse_args($options, $default);
@@ -59,21 +60,25 @@ class jw_lighttwitterwidget {
 		add_action( 'admin_menu', [ $this, 'add_plugin_page' ] );
 		add_action( 'plugins_loaded', [$this, 'load_textdomain'] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
-		add_action( 'wp_ajax_nopriv_' . self::prefix('twitterresponse'), [ $this, 'get_response' ] );
-		add_action( 'wp_ajax_' . self::prefix('twitterresponse'), [ $this, 'get_response' ] );
+		add_action( 'wp_ajax_nopriv_' . self::prefix('api'), [ $this, 'api' ] );
+		add_action( 'wp_ajax_' . self::prefix('api'), [ $this, 'api' ] );
 		add_shortcode( self::prefix('make'), [ $this, 'generate_widget' ] );
 		register_uninstall_hook( __FILE__, [ get_called_class(), 'uninstall' ] );
 	}
 
 	public function enqueue_scripts() {
+		$options = $this->get_options();
+
 		wp_enqueue_script( self::prefix('script'), plugins_url( 'dst/script.min.js', __FILE__ ), [ 'jquery' ] );
 		wp_localize_script( self::prefix('script'), self::prefix('ajaxobj'), [
-			'ajaxurl'     => admin_url( 'admin-ajax.php' ),
-			'nonce'       => wp_create_nonce( self::prefix('nonce') )
+			'endpoint_url' => admin_url( 'admin-ajax.php' ),
+			'endpoint_nonce' => wp_create_nonce( self::prefix('nonce') ),
+			'endpoint_action' => self::prefix('api'),
+			'autoload' => $options['autoload']
 		] );
 
 		// Optional styling.
-		if($this->get_options()['styling']) {
+		if($options['styling']) {
 			wp_register_style( self::prefix('style'), plugins_url( 'dst/style.min.css', __FILE__ ) );
 			wp_enqueue_style( self::prefix('style') );
 		}
@@ -181,6 +186,13 @@ class jw_lighttwitterwidget {
 			self::prefix(self::OPTION_GROUP), // Page
 			self::OPTION_SECTION_GENERAL // Section
 		);
+
+		add_settings_field( 'autoload', // ID
+			__('Initialize automatically?', self::TEXT_DOMAIN), // Title
+			[ $this, 'autoload_callback' ], // Callback
+			self::prefix(self::OPTION_GROUP), // Page
+			self::OPTION_SECTION_GENERAL // Section
+		);
 	}
 
 	/**
@@ -197,6 +209,7 @@ class jw_lighttwitterwidget {
 		$data[ 'consumersecret' ] = sanitize_text_field( $input[ 'consumersecret' ] );
 		$data[ 'refreshinterval' ] = is_numeric( $input[ 'refreshinterval' ] ) ? intval($input[ 'refreshinterval' ]) : self::DEFAULT_REFRESH_INTERVAL;
 		$data[ 'styling' ] =  isset($input[ 'styling' ]) && $input[ 'styling' ] == '1';
+		$data[ 'autoload' ] =  isset($input[ 'autoload' ]) && $input[ 'autoload' ] == '1';
 		return $data;
 	}
 
@@ -238,6 +251,11 @@ class jw_lighttwitterwidget {
 		print '<input type="checkbox" id="styling" name="' . self::prefix(self::OPTION_NAME) . '[styling]" value="1" ' . checked(true, $options['styling'], false) . '>';
 	}
 
+	public function autoload_callback() {
+		$options = $this->get_options();
+		print '<input type="checkbox" id="autoload" name="' . self::prefix(self::OPTION_NAME) . '[autoload]" value="1" ' . checked(true, $options['autoload'], false) . '>';
+	}
+
 	public function twitter_styler( $text, $targetBlank = true ) {
 		if ( is_null($text) ) return '';
 
@@ -257,7 +275,7 @@ class jw_lighttwitterwidget {
 		return $text;
 	}
 
-	public function get_response() {
+	public function api() {
 		// Get options and cached data.
 		$options = $this->get_options();
 		$cache = $this->get_cache();

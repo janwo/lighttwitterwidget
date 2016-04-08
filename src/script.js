@@ -6,10 +6,10 @@
 	"use strict";
 
 	// Define.
-	var jw_lighttwitterwidget = function (options) {
+	$.fn.jwLightTwitterWidget = function (options) {
 		// Merge options with default values.
 		options = $.extend( true, {
-			element: null,
+			prefix: 'jw_lighttwitterwidget',
 			regex: {
 				time: {
 					unknown_variable: /(\s|^)x(\s|$)/ig,
@@ -22,11 +22,8 @@
 			}
 		}, options || {} );
 
-		// Stop, if no element is set.
-		if(options.element === null || options.element.length > 1) throw('Multiple or no element set as a widget container.');
-
 		var prefix = function(string){
-			return options.element.attr('data-prefix') + '_' + string;
+			return options.prefix + '_' + string;
 		};
 
 		var resolve_preset = function(preset, tweet){
@@ -71,38 +68,44 @@
 
 		var always = function(){
 			// Disable loading state.
-			options.element.removeClass('loading');
+			widgets.removeClass('loading');
 		};
 
 		var error = function(){
 			// Enable error state.
-			options.element.addClass('error');
+			widgets.addClass('error');
 
 			// Get error element.
-			var error_element = options.element.find('[data-error]');
-
-			// Set error message.
-			error_element.text( error_element.attr('data-error') );
+			widgets.find('[data-error]').each(function () {
+				// Set error message.
+				$(this).text( $(this).attr('data-error') );
+			});
 		};
 
 		var no_tweets = function(){
 			// Enable no-tweets state.
-			options.element.addClass('no-tweets');
+			widgets.addClass('no-tweets');
 
-			// Set empty tweet.
-			options.element.find('[data-no-tweets]').text( tweet.attr('data-no-tweets') );
+			// Get empty tweet element.
+			widgets.find('[data-no-tweets]').each(function () {
+				// Set empty tweet.
+				$(this).text( $(this).attr('data-no-tweets') );
+			});
 		};
 
+		// Save scope.
+		var widgets = $(this);
+
 		// Make ajax call.
-		var ajax_obj = eval(prefix('ajaxobj'));
+		var ajax_obj = eval( prefix('ajaxobj') );
 		$.ajax( {
-			url: ajax_obj.ajaxurl,
+			url: ajax_obj.endpoint_url,
 			cache: false,
 			dataType: "json",
 			type: "POST",
 			data: {
-				action: prefix('twitterresponse'),
-				nonce: ajax_obj.nonce
+				action: ajax_obj.endpoint_action,
+				nonce: ajax_obj.endpoint_nonce
 			},
 			beforeSend: function ( x ) {
 				if ( x && x.overrideMimeType ) {
@@ -113,7 +116,7 @@
 			switch ( data.status) {
 				case 'success':
 					// Fill preset elements.
-					options.element.find('[data-preset]').each(function(){
+					widgets.find('[data-preset]').each(function(){
 						var preset = resolve_preset($(this).attr('data-preset'), data.tweet);
 						var attribute = $(this ).attr('data-preset-on');
 						if(attribute === undefined)
@@ -123,7 +126,7 @@
 					});
 
 					// Fill image elements.
-					options.element.find('[data-avatar]').each(function(){
+					widgets.find('[data-avatar]').each(function(){
 						// Prepare the right URL.
 						var url = data.tweet.user.image.replace('_normal.', '_bigger.');
 
@@ -152,10 +155,6 @@
 
 	// Initialize.
 	$(document).ready(function() {
-		$('.jw_lighttwitterwidget_widget' ).each(function(){
-			new jw_lighttwitterwidget({
-				element: $(this)
-			});
-		});
+		if(eval('jw_lighttwitterwidget_ajaxobj' ).autoload) $('.jw_lighttwitterwidget_widget').jwLightTwitterWidget();
 	});
 })(jQuery);

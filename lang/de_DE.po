@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SinglePage\n"
-"POT-Creation-Date: 2016-04-08 11:44+0100\n"
-"PO-Revision-Date: 2016-04-08 11:44+0100\n"
+"POT-Creation-Date: 2016-04-08 15:20+0100\n"
+"PO-Revision-Date: 2016-04-08 15:20+0100\n"
 "Last-Translator: Jan Wolf <info@jan-wolf.de>\n"
 "Language-Team: Jan Wolf <info@jan-wolf.de>\n"
 "Language: de\n"
@@ -17,62 +17,66 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: node_modules\n"
 "X-Poedit-SearchPathExcluded-1: src/vendor\n"
 
-#: plugin.php:93 plugin.php:94 plugin.php:109
+#: plugin.php:98 plugin.php:99 plugin.php:114
 msgid "Twitter Widget"
 msgstr "Twitter Widget"
 
-#: plugin.php:132
+#: plugin.php:137
 msgid "General Settings"
 msgstr "Allgemeine Einstellungen"
 
-#: plugin.php:138
+#: plugin.php:143
 msgid "Authentication"
 msgstr "Authentifizierung"
 
-#: plugin.php:144
+#: plugin.php:149
 msgid "Consumer String"
 msgstr "Consumer String"
 
-#: plugin.php:151
+#: plugin.php:156
 msgid "Consumer Secret"
 msgstr "Consumer Secret"
 
-#: plugin.php:158
+#: plugin.php:163
 msgid "OAuthToken String"
 msgstr "OAuthToken String"
 
-#: plugin.php:165
+#: plugin.php:170
 msgid "OAuthToken Secret"
 msgstr "OAuthToken Secret"
 
-#: plugin.php:172
+#: plugin.php:177
 msgid "Refresh Interval (Seconds)"
 msgstr "Aktualisierungsintervall (Sekunden)"
 
-#: plugin.php:179
+#: plugin.php:184
 msgid "Enqueue default styling?"
 msgstr "Standard Styling einbinden?"
 
-#: plugin.php:204
+#: plugin.php:191
+msgid "Initialize automatically?"
+msgstr "Automatische Initialisierung?"
+
+#: plugin.php:216
 msgid ""
 "In order to make the widget work, fill the form with your twitter "
 "credentials that are used to gather the tweets."
 msgstr ""
 "Damit das Widget funktioniert, füllen Sie alle nachfolgenden Felder aus."
 
-#: plugin.php:208
+#: plugin.php:220
 msgid "Define your desired general settings of the widget here."
 msgstr "Bitte definieren Sie die allgemeinen Widget-Einstellungen hier."
 
-#: plugin.php:322
+#: plugin.php:339
 msgid "Service temporarily unavailable."
 msgstr "Service zurzeit nicht verfügbar."
 
-#: plugin.php:322
+#: plugin.php:339
 msgid "There are no tweets yet."
 msgstr "Keine Tweets vorhanden."
 
-#: plugin.php:323
+#: plugin.php:340
 msgid ""
 "Tweeted years(x year[s])months(x month[s])days(x day[s])hours(x hour[s]) ago."
 msgstr ""
