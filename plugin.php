@@ -51,7 +51,7 @@ class jw_lighttwitterwidget {
 	}
 
 	function load_textdomain() {
-		load_plugin_textdomain( self::TEXT_DOMAIN, false, plugin_basename( dirname( __FILE__ ) ) . '/langs' );
+		load_plugin_textdomain( self::TEXT_DOMAIN, false, plugin_basename( dirname( __FILE__ ) ) . '/lang' );
 	}
 
 	public function __construct() {
@@ -129,7 +129,7 @@ class jw_lighttwitterwidget {
 		);
 
 		add_settings_section( self::OPTION_SECTION_GENERAL, // ID
-			__('General', self::TEXT_DOMAIN), // Title
+			__('General Settings', self::TEXT_DOMAIN), // Title
 			[ $this, 'print_section_info_general' ], // Callback
 			self::prefix(self::OPTION_GROUP) // Page
 		);
@@ -176,7 +176,7 @@ class jw_lighttwitterwidget {
 		);
 
 		add_settings_field( 'styling', // ID
-			__('Use default styling?', self::TEXT_DOMAIN), // Title
+			__('Enqueue default styling?', self::TEXT_DOMAIN), // Title
 			[ $this, 'styling_callback' ], // Callback
 			self::prefix(self::OPTION_GROUP), // Page
 			self::OPTION_SECTION_GENERAL // Section
