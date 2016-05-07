@@ -5,7 +5,7 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 /**
  * Plugin Name: Light Twitter Widget
  * Description: A light asynchronous twitter widget.
- * Version: 1.0.2
+ * Version: 1.0.3
  * Author: Jan Wolf
  * Author URI: http://jan-wolf.de
  * License: MIT
@@ -288,38 +288,45 @@ class jw_lighttwitterwidget {
 			$connection = new TwitterOAuth( $options[ 'consumer' ], $options[ 'consumersecret' ], $options[ 'oauthtoken' ], $options[ 'oauthtokensecret' ] );
 			$parameters = [ 'include_rts' => false, 'count' => 1 ];
 			if ( !is_null($cache[ 'last_data' ]) ) $parameters[ 'since_id' ] = $cache[ 'last_data' ][ 'id' ];
-			$response = $connection->get( 'statuses/user_timeline', $parameters );
 
-			// On success.
-			if(!is_null($response) && !isset( $response->errors )) {
-				// Update meta of the cache.
-				$cache['last_refresh'] = date('D M j G:i:s O Y', $now);
+			try {
+				// Connect.
+				$response = $connection->get( 'statuses/user_timeline', $parameters );
 
-				// Got a new tweet?
-				if ( isset( $response[ 0 ] ) ) {
-					$response = $response[ 0 ];
-					// Update the last data.
-					$cache['last_data'] = [
-						'id'    => $response->id,
-						'text'  => $response->text,
-						'user'  => [
-							'name'  => $response->user->name,
-							'screen_name' => $response->user->screen_name,
-							'image' => $response->user->profile_image_url_https,
-						],
-						'date'  => $response->created_at
-					];
+				// On success.
+				if(!isset( $response->errors )) {
+					// Update meta of the cache.
+					$cache['last_refresh'] = date('D M j G:i:s O Y', $now);
+
+					// Got a new tweet?
+					if ( isset( $response[ 0 ] ) ) {
+						$response = $response[ 0 ];
+						// Update the last data.
+						$cache['last_data'] = [
+							'id'    => $response->id,
+							'text'  => $response->text,
+							'user'  => [
+								'name'  => $response->user->name,
+								'screen_name' => $response->user->screen_name,
+								'image' => $response->user->profile_image_url_https,
+							],
+							'date'  => $response->created_at
+						];
+					}
+
+					// Save.
+					update_option(self::prefix(self::OPTION_NAME), $options);
+					update_option(self::prefix(self::CACHE_NAME), $cache);
 				}
-
-				// Save.
-				update_option(self::prefix(self::OPTION_NAME), $options);
-				update_option(self::prefix(self::CACHE_NAME), $cache);
+			} catch(\Abraham\TwitterOAuth\TwitterOAuthException $exception) {
+				// Show error message.
+				$response = null;
 			}
 		}
 
 		// Output.
 		header( 'content-type: application/json; charset=utf-8' );
-		$output = [ 'status' => is_null($cache['last_refresh']) ? 'error' : (is_null($cache['last_data']) ? 'no-tweets' : 'success') ];
+		$output = [ 'status' => is_null($cache['last_refresh']) || ($needs_update && is_null($response)) ? 'error' : (is_null($cache['last_data']) ? 'no-tweets' : 'success') ];
 		if(!is_null($cache['last_data'])) $output['tweet'] = array_merge($cache['last_data'], [
 			'text' => $this->twitter_styler($cache['last_data']['text'])
 		]);
