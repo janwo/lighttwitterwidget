@@ -6,7 +6,7 @@ Requires at least: 4.2
 Tested up to: 4.4.2
 Stable tag: 4.4.2
 License: MIT
-License URI: https://github.com/janw/lighttwitterwidget/blob/master/LICENSE.md
+License URI: https://github.com/daffunn/lighttwitterwidget/blob/master/LICENSE.md
 
 Create a simple widget of your most recent tweet on Twitter within WordPress using a easy-to-use API.
 
@@ -14,4 +14,4 @@ Create a simple widget of your most recent tweet on Twitter within WordPress usi
 Create a simple widget of your most recent tweet on Twitter within WordPress using a easy-to-use API. To reduce the number of calls to the Twitter API, the plugin comes with caching.
 
 == Installation ==
-The installation is pretty easy, get started by visiting the GitHub-Repository, visit https://github.com/janw/lighttwitterwidget.
+The installation is pretty easy, get started by visiting the GitHub-Repository, visit https://github.com/daffunn/lighttwitterwidget.
