@@ -5,9 +5,9 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 /**
  * Plugin Name: Light Twitter Widget
  * Description: A light asynchronous twitter widget.
- * Version: 1.0.3
+ * Version: 1.0.5
  * Author: Jan Wolf
- * Author URI: http://jan-wolf.de
+ * Author URI: https://jan-wolf.de
  * License: MIT
  */
 
