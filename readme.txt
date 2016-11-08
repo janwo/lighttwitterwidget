@@ -3,8 +3,8 @@ Contributors: janwolf
 Tags: twitter, widget, api, light
 Donate link: https://jan-wolf.de
 Requires at least: 4.2
-Tested up to: 4.4.2
-Stable tag: 4.4.2
+Tested up to: 4.7
+Stable tag: 4.7
 License: MIT
 License URI: https://github.com/daffunn/lighttwitterwidget/blob/master/LICENSE.md
 
