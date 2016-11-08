@@ -128,7 +128,7 @@
 					// Fill image elements.
 					widgets.find('[data-avatar]').each(function(){
 						// Prepare the right URL.
-						var url = data.tweet.user.image.replace('_normal.', '_bigger.');
+						var url = data.tweet.user.image.replace('_normal.', '_200x200.');
 
 						// Apply new src, if it's an image.
 						if($( this ).is('img')) {
